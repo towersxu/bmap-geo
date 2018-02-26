@@ -1,0 +1,14 @@
+.DS_Store
+.nyc_output
+node_modules/
+npm-debug.log
+selenium-debug.log
+test/unit/coverage
+test/e2e/reports
+webpack.config.js
+dev-server.js
+src/
+static/
+
+#server/public/api/*.apib
+#server/public/api/*.html

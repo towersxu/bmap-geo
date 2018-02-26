@@ -1,0 +1,31 @@
+{
+  "name": "bmap-geojson",
+  "version": "0.0.1",
+  "description": "基于百度地图生成geojson",
+  "main": "bmap-geojson.js",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "build": "webpack"
+  },
+  "keywords": [
+    "百度地图",
+    "geojson"
+  ],
+  "author": "xutao",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.18",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.11.0",
+    "webpack-dev-middleware": "^2.0.6",
+    "webpack-dev-server": "^2.11.1",
+    "webpack-hot-middleware": "^2.21.0"
+  }
+}

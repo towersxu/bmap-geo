@@ -1,5 +1,5 @@
 {
-  "name": "bmap-geojson",
+  "name": "BmapGeo",
   "version": "0.0.1",
   "description": "基于百度地图生成geojson",
   "main": "bmap-geojson.js",

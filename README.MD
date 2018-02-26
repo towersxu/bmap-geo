@@ -19,15 +19,25 @@
 
 ES6引入方式
 
+> 注意，在引用的时候就要确保百度地图已经被加载了。
+
+
 ```shell
 npm install BmapGeo
 ```
 
 ```javascript
-import { BmapGeo } from 'BmapGeo'
+import * as BmapGeo from 'bmap-geojson'
 ```
 
 ### 调用方式
+
+var geo = new BmapGeo(map, geojson, BMap)
+
+|name|type|require|description|
+|----|----|-------|-----------|
+|map|mapobject|true|当前地图对象|
+|geojson|jsonobject|false|显示已经绘制完成的geojson|
 
 ```javascript
 var map = new BMap.Map('container')
@@ -42,6 +52,7 @@ geo.on('delete', function (type, result) { // 元素被删除触发事件
   console.log(result)
 })
 ```
+
 
 ### Method
 

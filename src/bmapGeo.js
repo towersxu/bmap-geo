@@ -5,8 +5,8 @@
  * @author xutao <987427795@qq.com>
  */
 let guidIndex = 1
-let BMap = window.BMap
-let Control = BMap.Control
+let BMap = window.BMap || {}
+let Control = BMap.Control || function () {}
 // import { locationImage } from './dataimage'
 
 export class BmapGeo {

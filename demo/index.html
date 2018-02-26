@@ -21,6 +21,7 @@
     </div>
   </div>
   <script>
+    var geojson = { "type": "FeatureCollection", "features": [{ "type": "Feature", "properties": { "bmapId": "feature__1" }, "geometry": { "type": "Point", "coordinates": [39.947221, 116.469151] } }, { "type": "Feature", "properties": { "bmapId": "feature__2" }, "geometry": { "type": "Polygon", "coordinates": [[[[39.920665, 116.466276], [39.897198, 116.43983], [39.897198, 116.493297]]]] } }] }
     var geo = {}
     function inita () {
       var map = new BMap.Map('container', { enableMapClick: false })
@@ -57,7 +58,7 @@
       //   }
       //   map.setViewport(pointArray);    //调整视野  
       // });
-      geo = new BmapGeo(map)
+      geo = new BmapGeo(map, geojson)
       // geo.open(1)
       // geo.on('complete', function () {
       //   console.log(arguments)
@@ -67,6 +68,9 @@
         showResult(JSON.stringify(result))
       })
       geo.on('delete', function (type, result) {
+        showResult(JSON.stringify(result))
+      })
+      geo.on('change', function (type, result) {
         showResult(JSON.stringify(result))
       })
     }

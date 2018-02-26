@@ -17,29 +17,32 @@ export class BmapGeo {
    * @memberof BmapGeo
    */
   constructor (map, geo) {
+    this.map = map
     this.polygons = [] // 区域点数据。
     let geoCollection = new GeoCollection()
-    // TODO 处理回显问题
-    if (geo && geo.type === 'FeatureCollection' && geo.features && geo.features.length > 0) {
-      let features = geo.features
-      features.map(f => {
-        if (f.geometry && f.geometry.type === 'Polygon' && f.geometry.coordinates) {
-          let geoPolygon = new GeoPolygon(f.geometry.coordinates[0])
-          // geoCollection.addFeature(geoPolygon)
-          geoPolygon.addToGeoCollection(geoCollection)
-        }
-      })
-    }
-    this.map = map
     this.markers = [] // geo中的点数据
     this.points = [] // geo中点对象
     this.polygonPaths = [] // 区域路径，bmap路径对象
     this.polygonPoints = [] // 区域点，bmap点对象
     this.events = {
       delete: function () {},
-      add: function () {}
+      add: function () {},
+      change: function () {}
     }
     this.geoCollection = geoCollection
+    if (geo && geo.type === 'FeatureCollection' && geo.features && geo.features.length > 0) {
+      let features = geo.features
+      features.map(f => {
+        if (f.geometry && f.geometry.type === 'Polygon' && f.geometry.coordinates) {
+          this._createPolygon(f.geometry.coordinates[0][0])
+        }
+      })
+      features.map(f => {
+        if (f.geometry && f.geometry.type === 'Point' && f.geometry.coordinates) {
+          this._createPoint(f.geometry.coordinates)
+        }
+      })
+    }
   }
   /**
    * 以地图内控件的方式，显示控制图标
@@ -156,14 +159,17 @@ export class BmapGeo {
     // 然后在移动的时候，将此折线的结束点设置为当前鼠标的位置。
     this.movePath.setPositionAt(1, pt)
   }
-  _createPolygon () {
-    let geoPolygon = new GeoPolygon(this.points)
+  _createPolygon (points) {
+    let geoPolygon = new GeoPolygon(points)
     geoPolygon.show(this.map)
     geoPolygon.addToGeoCollection(this.geoCollection)
     this.emit('add', 'polygon', this.geoCollection.getJSONObject())
     geoPolygon.on('delete', () => {
       this.emit('delete', 'polygon', this.geoCollection.getJSONObject())
       geoPolygon = null
+    })
+    geoPolygon.on('change', () => {
+      this.emit('change', 'polygon', this.geoCollection.getJSONObject())
     })
   }
   _createPoint (point) {
@@ -174,6 +180,9 @@ export class BmapGeo {
     geoPoint.on('delete', () => {
       this.emit('delete', 'point', this.geoCollection.getJSONObject())
       geoPoint = null
+    })
+    geoPoint.on('change', () => {
+      this.emit('change', 'point', this.geoCollection.getJSONObject())
     })
   }
   /**
@@ -195,7 +204,7 @@ export class BmapGeo {
     }
     // 绘制区域至少要3个点，所以3个点时，开始判断是否绘制完成
     if (this.polygons.length > 2 && this._isTwoPointNear(this.polygons[0], pt)) {
-      this._createPolygon()
+      this._createPolygon(this.points)
       this.polygonPaths.map(p => p.remove())
       this.polygonPoints.map(p => p.remove())
       this.polygons = []
@@ -301,7 +310,8 @@ class GeoObject {
     this.properties.bmapId = 'feature__' + (guidIndex++).toString(36)
     this.geometry = geometry
     this.events = {
-      delete: function () {}
+      delete: function () {},
+      change: function () {}
     }
   }
   /**
@@ -351,10 +361,6 @@ class GeoObject {
     this.emit('delete')
   }
   setName (map) {
-    // let str = `<div>
-    //   <div>name: <input type="text" value="${this.properties.name || ''}"></div>
-    //   <div><button style="margin-top: 10px;float: right;">确定</button></div>
-    // </div>`
     let div = document.createElement('div')
     let div1 = document.createElement('div')
     let name = document.createElement('span')
@@ -367,6 +373,7 @@ class GeoObject {
     button.addEventListener('click', () => {
       this.properties.name = input.value
       map.closeInfoWindow()
+      this.emit('change')
     })
     div.appendChild(div1)
     div.appendChild(button)

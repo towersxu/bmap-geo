@@ -45,11 +45,11 @@ geo.on('delete', function (type, result) { // 元素被删除触发事件
 
 ### Method
 
-- showControl()
+#### showControl()
 
 显示内置绘制控件，目前内置了`绘制区域polygon`控件和`绘制坐标点point`控件
 
-- open(type)
+#### open(type)
 
 开始绘制
 
@@ -59,11 +59,11 @@ Parameters
 |----|----|-------|-----------|
 |open|type|1|绘制的模式，1表示绘制区域polygon，2表示绘制坐标点point。在不调用showControl()时，可以使用这个方法实现自定义绘制控件。|
 
-- clear()
+#### clear()
 
 清除使用后生成的数据，便于重新使用。
 
-- close()
+#### close()
 
 结束绘制
 

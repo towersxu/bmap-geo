@@ -213,7 +213,7 @@ export class BmapGeo {
       this.movePath = new BMap.Polyline([pt, pt], { enableMassClear: true })
       this.map.addOverlay(this.movePath)
       this.polygons.push(pt)
-      this.points.push([pt.lat, pt.lng])
+      this.points.push([pt.lng, pt.lat])
     }
   }
   _drawPointClick (e) {
@@ -221,7 +221,7 @@ export class BmapGeo {
     if (!this._isPointValid(pt)) {
       return
     }
-    this._createPoint([pt.lat, pt.lng])
+    this._createPoint([pt.lng, pt.lat])
   }
   /**
    * 在地图上绘制指定的点
@@ -383,11 +383,11 @@ class GeoObject {
     let point = { lat: 0, lng: 0 }
     if (this.geometry.type === 'Point') {
       let coordinates = this.geometry.coordinates
-      point = new BMap.Point(coordinates[1], coordinates[0])
+      point = new BMap.Point(coordinates[0], coordinates[1])
     }
     else {
       let coordinates = this.geometry.coordinates[0][0][0] // 取区域的第一个点做弹出点
-      point = new BMap.Point(coordinates[1], coordinates[0])
+      point = new BMap.Point(coordinates[0], coordinates[1])
     }
     map.openInfoWindow(infoWindow, point)
   }
@@ -443,8 +443,8 @@ class GeoPoint extends GeoObject {
   getPolygonPoints () {
     let coordinates = this.geometry.coordinates
     return {
-      lat: coordinates[0],
-      lng: coordinates[1]
+      lng: coordinates[0],
+      lat: coordinates[1]
     }
   }
   /**
@@ -492,7 +492,7 @@ class GeoPolygon extends GeoObject {
   getPolygonPoints () {
     let ps = this.geometry.coordinates[0][0]
     return ps.map(s => {
-      return { lat: s[0], lng: s[1] }
+      return { lng: s[0], lat: s[1] }
     })
   }
   getJSONObject () {

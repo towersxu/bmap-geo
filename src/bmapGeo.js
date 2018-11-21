@@ -614,12 +614,12 @@ class PointControl extends Control {
         ['width', '20px'],
         ['height', '20px'],
         ['cursor', 'pointer'],
-        ['background', 'url(http://7xrmyu.com1.z0.glb.clouddn.com/location1.png) center center'],
+        ['background', 'url(http://image.qiniu.hippor.com/location1.png) center center'],
         ['background-size', '20px']
       ],
       [
       '.point-control-option.active',
-        ['background', 'url(http://7xrmyu.com1.z0.glb.clouddn.com/location2.png) center center'],
+        ['background', 'url(http://image.qiniu.hippor.com/location2.png) center center'],
         ['background-size', '20px']
       ]
     ])
@@ -670,12 +670,12 @@ class PolygonControl extends Control {
         ['width', '20px'],
         ['height', '20px'],
         ['cursor', 'pointer'],
-        ['background', 'url(http://7xrmyu.com1.z0.glb.clouddn.com/area1.png) center center'],
+        ['background', 'url(http://image.qiniu.hippor.com/area1.png) center center'],
         ['background-size', '20px']
       ],
       [
         '.polygon-control-option.active',
-        ['background', 'url(http://7xrmyu.com1.z0.glb.clouddn.com/area2.png) center center'],
+        ['background', 'url(http://image.qiniu.hippor.com/area2.png) center center'],
         ['background-size', '20px']
       ]
     ])

@@ -34,7 +34,7 @@ export class BmapGeo {
       let features = geo.features
       features.map(f => {
         if (f.geometry && f.geometry.type === 'Polygon' && f.geometry.coordinates) {
-          this._createPolygon(f.geometry.coordinates[0][0])
+          this._createPolygon(f.geometry.coordinates[0])
         }
       })
       features.map(f => {
@@ -160,6 +160,7 @@ export class BmapGeo {
     this.movePath.setPositionAt(1, pt)
   }
   _createPolygon (points) {
+    console.log(points)
     let geoPolygon = new GeoPolygon(points)
     geoPolygon.show(this.map)
     geoPolygon.addToGeoCollection(this.geoCollection)
@@ -469,11 +470,10 @@ class GeoPolygon extends GeoObject {
     this.geometry = {
       type: 'Polygon',
       coordinates: [
-        [
-          points
-        ]
+        points
       ]
     }
+    console.log(this.geometry)
   }
   /**
    * 显示GEO元素在指定地图上
@@ -490,7 +490,7 @@ class GeoPolygon extends GeoObject {
     this.setContextMeun(map)
   }
   getPolygonPoints () {
-    let ps = this.geometry.coordinates[0][0]
+    let ps = this.geometry.coordinates[0]
     return ps.map(s => {
       return { lng: s[0], lat: s[1] }
     })

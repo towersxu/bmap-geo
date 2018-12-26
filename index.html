@@ -14,14 +14,14 @@
     <div>基于百度生成GEO数据</div>
     <div class="map-wrapper">
       <div id="container" style="width: 800px; height: 500px;"></div>
-      <p>GEO JSON:</p>
+      <p>GEO JSON1:</p>
       <div id="result"></div>
     </div>
     <div>
     </div>
   </div>
   <script>
-    var geojson = { "type": "FeatureCollection", "features": [{ "type": "Feature", "properties": { "bmapId": "feature__1" }, "geometry": { "type": "Point", "coordinates": [116.469151, 39.947221] } }, { "type": "Feature", "properties": { "bmapId": "feature__2" }, "geometry": { "type": "Polygon", "coordinates": [[[[116.466276, 39.920665], [116.43983, 39.897198], [116.493297, 39.897198]]]] } }] }
+    var geojson = { "type": "FeatureCollection", "features": [{ "type": "Feature", "properties": { "bmapId": "feature__1" }, "geometry": { "type": "Point", "coordinates": [116.469151, 39.947221] } }, { "type": "Feature", "properties": { "bmapId": "feature__2" }, "geometry": { "type": "Polygon", "coordinates": [[[116.466276, 39.920665], [116.43983, 39.897198], [116.493297, 39.897198]]] } }] }
     var geo = {}
     function inita () {
       var map = new BMap.Map('container', { enableMapClick: false })

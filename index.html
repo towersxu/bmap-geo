@@ -5,15 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>GEOJSON生成插件</title>
   <script src="http://api.map.baidu.com/getscript?v=3.0&ak=KAYsf1crZqV9xgyWEzsGpaVzvobclAmu&t=1"></script>
 <script type="text/javascript" src="/bmap-geojson.js"></script></head>
 
 <body>
   <div>
     <div>基于百度生成GEO数据</div>
+    <p style="color:red">大数据产品注意：大数据项目地图给后台录入数据的时候，点和区域要分来。也就是学校数据和地区数据不能混在一起。</p>
     <div class="map-wrapper">
       <div id="container" style="width: 800px; height: 500px;"></div>
+      <p>当前选中区域和点有：</p>
+      <ul id="selectList">
+      </ul>
       <p>GEO JSON1:</p>
       <div id="result"></div>
     </div>
@@ -21,13 +25,16 @@
     </div>
   </div>
   <script>
-    var geojson = { "type": "FeatureCollection", "features": [{ "type": "Feature", "properties": { "bmapId": "feature__1" }, "geometry": { "type": "Point", "coordinates": [116.469151, 39.947221] } }, { "type": "Feature", "properties": { "bmapId": "feature__2" }, "geometry": { "type": "Polygon", "coordinates": [[[116.466276, 39.920665], [116.43983, 39.897198], [116.493297, 39.897198]]] } }] }
+    var geojson = ''
+    // var geojson = { "type": "FeatureCollection", "features": [{ "type": "Feature", "properties": { "bmapId": "feature__1" }, "geometry": { "type": "Point", "coordinates": [116.469151, 39.947221] } }, { "type": "Feature", "properties": { "bmapId": "feature__2" }, "geometry": { "type": "Polygon", "coordinates": [[[116.466276, 39.920665], [116.43983, 39.897198], [116.493297, 39.897198]]] } }] }
     var geo = {}
     function inita () {
       var map = new BMap.Map('container', { enableMapClick: false })
       // var point = new BMap.Point(116.404, 39.915)
       // map.centerAndZoom(point, 12)
-      map.centerAndZoom("北京", 12)
+      if (!geojson) {
+        map.centerAndZoom("北京", 12)
+      }
       map.enableScrollWheelZoom(true) // 允许鼠标滚动
       var size = new BMap.Size(10, 20);
       map.addControl(new BMap.CityListControl({ // 增加城市切换控件
@@ -42,42 +49,57 @@
         //   alert('after');
         // }
       }));
-      // var bdary = new BMap.Boundary()
-      // bdary.get("遂宁市蓬溪县", function (rs) {       //获取行政区域
-      //   map.clearOverlays();        //清除地图覆盖物       
-      //   var count = rs.boundaries.length; //行政区域的点有多少个
-      //   if (count === 0) {
-      //     alert('未能获取当前输入行政区域');
-      //     return;
-      //   }
-      //   var pointArray = [];
-      //   for (var i = 0; i < count; i++) {
-      //     var ply = new BMap.Polygon(rs.boundaries[i], { strokeWeight: 1, strokeColor: "#ff00f0", fillOpacity: 0.3 }); //建立多边形覆盖物
-      //     map.addOverlay(ply);  //添加覆盖物
-      //     pointArray = pointArray.concat(ply.getPath());
-      //   }
-      //   map.setViewport(pointArray);    //调整视野  
-      // });
+      // setTimeout(() => {
+      //   var bdary = new BMap.Boundary()
+      //   bdary.get("遂宁市蓬溪县", function (rs) {       //获取行政区域
+      //     console.log(22)
+      //     console.log(rs)
+      //     // map.clearOverlays();        //清除地图覆盖物       
+      //     var count = rs.boundaries.length; //行政区域的点有多少个
+      //     if (count === 0) {
+      //       alert('未能获取当前输入行政区域');
+      //       return;
+      //     }
+      //     var pointArray = [];
+      //     for (var i = 0; i < count; i++) {
+      //       var ply = new BMap.Polygon(rs.boundaries[i], { strokeWeight: 1, strokeColor: "#ff00f0", fillOpacity: 0.3 }); //建立多边形覆盖物
+      //       map.addOverlay(ply);  //添加覆盖物
+      //       pointArray = pointArray.concat(ply.getPath());
+      //     }
+      //     map.setViewport(pointArray);    //调整视野  
+      //   });
+      // }, 6000)
       geo = new BmapGeo(map, geojson)
       // geo.open(1)
       // geo.on('complete', function () {
       //   console.log(arguments)
       // })
-      geo.showControl()
+      geo.showControl({
+        point: true,
+        polygon: true,
+        area: true
+      })
       geo.on('add', function (type, result) {
-        showResult(JSON.stringify(result))
+        showResult(result)
       })
       geo.on('delete', function (type, result) {
-        showResult(JSON.stringify(result))
+        showResult(result)
       })
       geo.on('change', function (type, result) {
-        showResult(JSON.stringify(result))
+        showResult(result)
       })
     }
     inita()
 
     function showResult (text) {
-      document.getElementById('result').innerText = text
+      document.getElementById('result').innerText = JSON.stringify(text)
+      var lis = ''
+      for (var i = 0; i < text.features.length; i++) {
+        var feature = text.features[i]
+        lis += '<li>名字：' + feature.properties.name + ';  ' + ' bmapId: ' +feature.properties.bmapId+ '</li>'
+      }
+      document.getElementById('selectList').innerHTML = lis
+
     }
   </script>
 </body>

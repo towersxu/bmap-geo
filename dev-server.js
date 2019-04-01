@@ -46,7 +46,7 @@ app.use(devMiddleware)
 
 // serve pure static assets
 
-app.use('/static', express.static('./demo'))
+app.use('/static', express.static('./'))
 
 const uri = 'http://localhost:' + port
 

@@ -24,11 +24,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      title: 'GEOJSON生成插件DEMO',
-      template: 'index.html',
-      inject: 'head'
-    }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new UglifyJsPlugin()

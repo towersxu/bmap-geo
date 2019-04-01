@@ -53,7 +53,6 @@ geo.on('delete', function (type, result) { // 元素被删除触发事件
 })
 ```
 
-
 ### Method
 
 #### showControl()

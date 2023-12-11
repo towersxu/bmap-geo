@@ -9,7 +9,7 @@ let BMap = window.BMap || {}
 let Control = BMap.Control || function () {}
 // import { locationImage } from './dataimage'
 
-export class BmapGeo {
+class BmapGeo {
   /**
    * 构造函数，返回一个BmapGeo对象
    * @param {baidumap} map 地图对象
@@ -282,6 +282,7 @@ export class BmapGeo {
   }
   _drawPointClick (e) {
     let pt = e.point
+    console.log(pt)
     if (!this._isPointValid(pt)) {
       return
     }

@@ -6,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>GEOJSON生成插件</title>
-  <script src="http://api.map.baidu.com/getscript?v=3.0&ak=KAYsf1crZqV9xgyWEzsGpaVzvobclAmu&t=1"></script>
-<script type="text/javascript" src="/bmap-geojson.js"></script></head>
-
+  <script src="http://api.map.baidu.com/getscript?v=3.0&ak=OV7wpmL1NrhoH2Gvua9L7vD6xy9jbW4U&t=1"></script>
+<script type="text/javascript" src="./src/bmapGeo.js"></script>
+<script type="text/javascript" src="./src/data.js"></script>
+</head>
 <body>
   <div>
     <div>基于百度生成GEO数据</div>
@@ -25,6 +26,7 @@
     </div>
   </div>
   <script>
+    console.log(globalData)
     var geojson = ''
     // var geojson = { "type": "FeatureCollection", "features": [{ "type": "Feature", "properties": { "bmapId": "feature__1" }, "geometry": { "type": "Point", "coordinates": [116.469151, 39.947221] } }, { "type": "Feature", "properties": { "bmapId": "feature__2" }, "geometry": { "type": "Polygon", "coordinates": [[[116.466276, 39.920665], [116.43983, 39.897198], [116.493297, 39.897198]]] } }] }
     var geo = {}
@@ -33,7 +35,9 @@
       // var point = new BMap.Point(116.404, 39.915)
       // map.centerAndZoom(point, 12)
       if (!geojson) {
-        map.centerAndZoom("北京", 12)
+        // map.centerAndZoom("北京", 12)
+        var point = new BMap.Point('104.753337', '31.810175');     
+        map.centerAndZoom(point, 12)
       }
       map.enableScrollWheelZoom(true) // 允许鼠标滚动
       var size = new BMap.Size(10, 20);
@@ -88,6 +92,22 @@
       geo.on('change', function (type, result) {
         showResult(result)
       })
+      globalData.forEach(item => {
+        geo._drawPointClick({
+          point: {
+            lng: item.x,
+            lat: item.y
+          }
+        })
+      })
+      // geo._drawPointClick({
+      //   point: {
+      //     lng: '116.57436363773311',
+      //     lat: '39.934828179598014'
+      //   }
+      // })
+      console.log('globalData', globalData)
+
     }
     inita()
 
